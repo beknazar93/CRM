@@ -1,4 +1,6 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+
 from .models import Employee,Client,SalesPipelineStage
 from .serializers import EmployeeSerializer,ClientSerializer,SalesPipelineStageSerializer
 
@@ -7,6 +9,8 @@ from .serializers import EmployeeSerializer,ClientSerializer,SalesPipelineStageS
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+
+    # Метод удаления сотрудника
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
@@ -16,7 +20,9 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
-     def destroy(self, request, *args, **kwargs):
+
+    # Метод удаления клиента
+    def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response({"message": "Client deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
